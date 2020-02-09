@@ -9,6 +9,7 @@ const apis = {
 
     getStoreInfo: domin + '/store/info POST A',
     updateStoreInfo: domin + '/store/update POST A',
+    getStoreByBoss: domin + '/store/by-boss POST A',
 };
 
 export const errors = {
@@ -78,22 +79,60 @@ export const getUserInfo = async({
 
 export const updateUserInfo = async({
     id,
-    name,
-    sex,
-    nation,
-    politic,
-    phone,
-    storeID,
-    job,
+    Name,
+    Sex,
+    Nation,
+    Politic,
+    Phone,
+    StoreID,
+    Job,
 } = {}) => {
     return await mRequest(apis.updateUserInfo, {
         id,
-        name,
-        sex,
-        nation,
-        politic,
-        phone,
-        storeID,
-        job,
+        Name,
+        Sex,
+        Nation,
+        Politic,
+        Phone,
+        StoreID,
+        Job,
+    });
+}
+
+export const getStoreInfo = async({
+    id
+} = {}) => {
+    return await mRequest(apis.getStoreInfo, {
+        id
+    });
+}
+
+export const updateStoreInfo = async({
+    id,
+    Name,
+    FullName,
+    Type,
+    Address,
+    Cert,
+    RegTime,
+    BossID
+} = {}) => {
+    return await mRequest(apis.updateStoreInfo, {
+        id,
+        Name,
+        FullName,
+        Type,
+        Address,
+        Cert,
+        RegTime,
+        BossID
+    });
+}
+
+export const getStoreByBoss = async({
+    id
+} = {}) => {
+    return await mRequest(apis.getStoreByBoss, {
+        id
     });
 }

@@ -24,8 +24,8 @@ export default class UserInfo extends Component {
       this.setState({
         id: this.$router.params.id
       });
+      Taro.startPullDownRefresh();
     }
-    Taro.startPullDownRefresh();
   }
 
   onPullDownRefresh = async () => {
@@ -83,11 +83,11 @@ export default class UserInfo extends Component {
     } else {
       let response = await api.updateUserInfo({
         id: parseInt(id),
-        name: Name,
-        sex: Sex,
-        nation: Nation,
-        politic: Politic,
-        phone: Phone,
+        Name: Name,
+        Sex: Sex,
+        Nation: Nation,
+        Politic: Politic,
+        Phone: Phone,
       });
       if (response.code == api.errors.Ok) {
         Taro.navigateBack();

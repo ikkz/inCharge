@@ -23,7 +23,8 @@ class App extends Component {
   config = {
     pages: [
       'pages/index/index',
-      'pages/userInfo/userInfo'
+      'pages/userInfo/userInfo',
+      'pages/storeInfo/storeInfo'
     ],
     window: {
       backgroundTextStyle: 'dark',

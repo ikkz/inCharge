@@ -1,11 +1,19 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View, Text, Button } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import * as util from '../../utils/util';
 import * as api from '../../utils/api';
+import { AtTabs, AtTabsPane, AtButton } from 'taro-ui';
+import StorePreview from '../../components/storePreview';
 
 export default class Index extends Component {
   config = {
-    navigationBarTitleText: 'Welcome'
+    navigationBarTitleText: '选择店铺',
+    enablePullDownRefresh: true
+  }
+
+  state = {
+    currentTab: 0,
+    bossStores: []
   }
 
   shouldLogin = async () => {
@@ -42,7 +50,17 @@ export default class Index extends Component {
     Taro.setStorageSync('token', token);
   }
 
-  componentWillMount() { }
+  handleTabClick = (value) => {
+    this.setState({
+      currentTab: value
+    });
+  }
+
+  onCreateStoreClick = () => {
+    Taro.navigateTo({
+      url: '/pages/storeInfo/storeInfo',
+    });
+  }
 
   componentDidMount() {
     (async () => {
@@ -52,16 +70,37 @@ export default class Index extends Component {
     })();
   }
 
-  componentWillUnmount() { }
+  componentDidShow() {
+    Taro.startPullDownRefresh();
+  }
 
-  componentDidShow() { }
-
-  componentDidHide() { }
+  onPullDownRefresh() {
+    (async () => {
+      let response = await api.getStoreByBoss();
+      if (response.code === api.errors.Ok) {
+        this.setState({
+          bossStores: response.data
+        });
+      }
+      Taro.stopPullDownRefresh();
+    })();
+  }
 
   render() {
     return (
-      <View className='index'>
-      </View>
+      <AtTabs current={this.state.currentTab}
+        tabList={[{ title: '我是老板' }, { title: '我是员工' }]}
+        onClick={this.handleTabClick}>
+        <AtTabsPane current={this.state.currentTab} index={0}>
+          {this.state.bossStores.map((value) => {
+            return <StorePreview {...value} key={value.ID} />;
+          })}
+          <AtButton onClick={this.onCreateStoreClick}> 注册商铺 </AtButton>
+        </AtTabsPane>
+        <AtTabsPane current={this.state.currentTab} index={1}>
+
+        </AtTabsPane>
+      </AtTabs>
     )
   }
 }
