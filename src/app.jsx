@@ -24,7 +24,8 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/userInfo/userInfo',
-      'pages/storeInfo/storeInfo'
+      'pages/storeInfo/storeInfo',
+      'pages/storeSummary/storeSummary'
     ],
     window: {
       backgroundTextStyle: 'dark',

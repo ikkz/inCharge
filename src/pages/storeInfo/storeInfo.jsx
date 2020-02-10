@@ -121,7 +121,9 @@ export default class StoreInfo extends Component {
           </AtInput>
 
         </AtForm>
-        <AtButton onClick={this.onSubmit}>提交</AtButton>
+        <View className="btn-view">
+          <AtButton onClick={this.onSubmit} type='primary'>提交</AtButton>
+        </View>
       </View >
     )
   }

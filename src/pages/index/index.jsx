@@ -4,6 +4,7 @@ import * as util from '../../utils/util';
 import * as api from '../../utils/api';
 import { AtTabs, AtTabsPane, AtButton } from 'taro-ui';
 import StorePreview from '../../components/storePreview';
+import './index.css';
 
 export default class Index extends Component {
   config = {
@@ -13,7 +14,8 @@ export default class Index extends Component {
 
   state = {
     currentTab: 0,
-    bossStores: []
+    bossStores: [],
+    stores: []
   }
 
   shouldLogin = async () => {
@@ -33,7 +35,7 @@ export default class Index extends Component {
           util.isNull(response.data.Politic) ||
           util.isNull(response.data.Phone)
         )) {
-          Taro.navigateTo({
+          Taro.redirectTo({
             url: `/pages/userInfo/userInfo?id=${response.data.ID}`,
           });
         }
@@ -62,28 +64,35 @@ export default class Index extends Component {
     });
   }
 
-  componentDidMount() {
-    (async () => {
-      while (await this.shouldLogin()) {
-        await this.login();
-      }
-    })();
-  }
-
   componentDidShow() {
     Taro.startPullDownRefresh();
   }
 
   onPullDownRefresh() {
     (async () => {
+      while (await this.shouldLogin()) {
+        await this.login();
+      }
       let response = await api.getStoreByBoss();
       if (response.code === api.errors.Ok) {
+        let bossStores = response.data.filter((value) => {
+          if (value.BossID === Taro.getApp().userInfo.ID) {
+            return value;
+          }
+        });
         this.setState({
-          bossStores: response.data
+          stores: response.data,
+          bossStores
         });
       }
       Taro.stopPullDownRefresh();
     })();
+  }
+
+  onStoreClick = (id) => {
+    Taro.redirectTo({
+      url: `/pages/storeSummary/storeSummary?id=${id}`
+    });
   }
 
   render() {
@@ -93,12 +102,20 @@ export default class Index extends Component {
         onClick={this.handleTabClick}>
         <AtTabsPane current={this.state.currentTab} index={0}>
           {this.state.bossStores.map((value) => {
-            return <StorePreview {...value} key={value.ID} />;
+            return <View key={value.ID} className="store-preview">
+              <StorePreview {...value} onClick={() => this.onStoreClick(value.ID)} />
+            </View>;
           })}
-          <AtButton onClick={this.onCreateStoreClick}> 注册商铺 </AtButton>
+          <View className="btn-view">
+            <AtButton onClick={this.onCreateStoreClick} type='primary'> 注册商铺 </AtButton>
+          </View>
         </AtTabsPane>
         <AtTabsPane current={this.state.currentTab} index={1}>
-
+          {this.state.stores.map((value) => {
+            return <View key={value.ID} className="store-preview">
+              <StorePreview {...value} onClick={() => this.onStoreClick(value.ID)} />
+            </View>;
+          })}
         </AtTabsPane>
       </AtTabs>
     )

@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro';
 
-const domin = 'https://ic.cildhdi.cn/api';
+const domin = 'http://ic.cildhdi.cn/api';
 
 const apis = {
     login: domin + '/auth/login POST U',

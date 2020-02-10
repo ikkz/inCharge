@@ -90,7 +90,9 @@ export default class UserInfo extends Component {
         Phone: Phone,
       });
       if (response.code == api.errors.Ok) {
-        Taro.navigateBack();
+        Taro.redirectTo({
+          url: '/pages/index/index'
+        });
       } else {
         Taro.showModal({
           content: "信息修改失败"
@@ -113,7 +115,9 @@ export default class UserInfo extends Component {
           <AtInput title="政治面貌" type="text" value={this.state.Politic} onChange={this.onPoliticChange} />
           <AtInput title="电话号码" type="phone" value={this.state.Phone} onChange={this.onPhoneChange} />
         </AtForm>
-        <AtButton onClick={this.onSubmit}>提交</AtButton>
+        <View className="btn-view">
+          <AtButton onClick={this.onSubmit} type='primary'>提交</AtButton>
+        </View>
       </View>
     )
   }

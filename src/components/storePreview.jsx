@@ -10,8 +10,9 @@ export default function StorePreview(props) {
         Address,
         Cert,
         RegTime,
+        onClick
     } = props;
-    return <AtCard title={Name} extra={RegTime} style="padding:10">
+    return <AtCard title={Name} extra={RegTime} style="padding:10" onClick={onClick}>
         <Text>
             全称: {FullName} <br />
             经营业态: {Type} <br />
