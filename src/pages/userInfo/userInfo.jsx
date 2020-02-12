@@ -16,7 +16,8 @@ export default class UserInfo extends Component {
     Sex: "",
     Nation: "",
     Politic: "",
-    Phone: ""
+    Phone: "",
+    disabled: true
   }
 
   componentDidMount() {
@@ -25,6 +26,11 @@ export default class UserInfo extends Component {
         id: this.$router.params.id
       });
       Taro.startPullDownRefresh();
+    }
+    if (this.$router.params.disabled) {
+      this.setState({
+        disabled: this.$router.params.disabled === "true"
+      });
     }
   }
 
@@ -37,8 +43,8 @@ export default class UserInfo extends Component {
         this.setState({
           ...response.data
         });
-        Taro.stopPullDownRefresh();
       }
+      Taro.stopPullDownRefresh();
     }
   }
 
@@ -81,6 +87,9 @@ export default class UserInfo extends Component {
       });
       return;
     } else {
+      Taro.showLoading({
+        title: '提交中'
+      });
       let response = await api.updateUserInfo({
         id: parseInt(id),
         Name: Name,
@@ -89,6 +98,7 @@ export default class UserInfo extends Component {
         Politic: Politic,
         Phone: Phone,
       });
+      Taro.hideLoading();
       if (response.code == api.errors.Ok) {
         Taro.redirectTo({
           url: '/pages/index/index'
@@ -105,18 +115,18 @@ export default class UserInfo extends Component {
     return (
       <View>
         <AtForm>
-          <AtInput title="姓名" type="text" value={this.state.Name} onChange={this.onNameChange} />
-          <AtRadio value={this.state.Sex} onClick={this.onSexChange}
+          <AtInput disabled={this.state.disabled} title="姓名" type="text" value={this.state.Name} onChange={this.onNameChange} />
+          <AtRadio disabled={this.state.disabled} value={this.state.Sex} onClick={this.onSexChange}
             options={[
               { label: '男', value: '男' },
               { label: '女', value: '女' }
             ]} />
-          <AtInput title="民族" type="text" value={this.state.Nation} onChange={this.onNationChange} />
-          <AtInput title="政治面貌" type="text" value={this.state.Politic} onChange={this.onPoliticChange} />
-          <AtInput title="电话号码" type="phone" value={this.state.Phone} onChange={this.onPhoneChange} />
+          <AtInput disabled={this.state.disabled} title="民族" type="text" value={this.state.Nation} onChange={this.onNationChange} />
+          <AtInput disabled={this.state.disabled} title="政治面貌" type="text" value={this.state.Politic} onChange={this.onPoliticChange} />
+          <AtInput disabled={this.state.disabled} title="电话号码" type="phone" value={this.state.Phone} onChange={this.onPhoneChange} />
         </AtForm>
         <View className="btn-view">
-          <AtButton onClick={this.onSubmit} type='primary'>提交</AtButton>
+          <AtButton disabled={this.state.disabled} onClick={this.onSubmit} type='primary'>提交</AtButton>
         </View>
       </View>
     )

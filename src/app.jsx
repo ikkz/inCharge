@@ -25,13 +25,32 @@ class App extends Component {
       'pages/index/index',
       'pages/userInfo/userInfo',
       'pages/storeInfo/storeInfo',
-      'pages/storeSummary/storeSummary'
+
+      'pages/storeSummary/storeSummary',
+      'pages/setting/setting',
+      'pages/warehouse/warehouse',
+      'pages/data/data',
     ],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      list: [{
+        pagePath: 'pages/storeSummary/storeSummary',
+        text: '商铺'
+      }, {
+        pagePath: 'pages/setting/setting',
+        text: '设置'
+      }, {
+        pagePath: 'pages/warehouse/warehouse',
+        text: '仓库'
+      }, {
+        pagePath: 'pages/data/data',
+        text: '数据'
+      }]
     }
   }
 

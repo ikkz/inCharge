@@ -18,6 +18,7 @@ export default class StoreInfo extends Component {
     Address: "",
     Cert: "",
     RegTime: "",
+    disabled: true
   }
 
   componentDidMount() {
@@ -26,6 +27,12 @@ export default class StoreInfo extends Component {
         id: this.$router.params.id
       });
       Taro.startPullDownRefresh();
+    }
+    console.log(this.$router.params);
+    if (this.$router.params.disabled) {
+      this.setState({
+        disabled: this.$router.params.disabled === "true"
+      });
     }
   }
 
@@ -38,8 +45,8 @@ export default class StoreInfo extends Component {
         this.setState({
           ...response.data
         });
-        Taro.stopPullDownRefresh();
       }
+      Taro.stopPullDownRefresh();
     }
   }
 
@@ -72,6 +79,9 @@ export default class StoreInfo extends Component {
       });
       return;
     } else {
+      Taro.showLoading({
+        title: '提交中'
+      });
       let data = {
         Name: Name,
         FullName: FullName,
@@ -94,6 +104,7 @@ export default class StoreInfo extends Component {
         };
       }
       let response = await api.updateStoreInfo(data);
+      Taro.hideLoading();
       if (response.code == api.errors.Ok) {
         Taro.navigateBack();
       } else {
@@ -108,21 +119,21 @@ export default class StoreInfo extends Component {
     return (
       <View>
         <AtForm>
-          <AtInput title="门店简称" type="text" value={this.state.Name} onChange={this.onStateChange('Name')} />
-          <AtInput title="门店全称" type="text" value={this.state.FullName} onChange={this.onStateChange('FullName')} />
-          <AtInput title="经营业态" type="text" value={this.state.Type} onChange={this.onStateChange('Type')} />
-          <AtInput title="门店地址" type="text" value={this.state.Address} onChange={this.onStateChange('Address')} />
-          <AtInput title="工商认证" type="text" value={this.state.Cert} onChange={this.onStateChange('Cert')} />
-          <AtCalendar onSelectDate={this.onRegChange} />
-          <AtInput title="注册时间" type="text" value={this.state.RegTime}>
-            <Picker mode='date' value={this.state.RegTime} onChange={this.onRegChange}>
-              <AtButton>选择日期</AtButton>
+          <AtInput disabled={this.state.disabled} title="门店简称" type="text" value={this.state.Name} onChange={this.onStateChange('Name')} />
+          <AtInput disabled={this.state.disabled} title="门店全称" type="text" value={this.state.FullName} onChange={this.onStateChange('FullName')} />
+          <AtInput disabled={this.state.disabled} title="经营业态" type="text" value={this.state.Type} onChange={this.onStateChange('Type')} />
+          <AtInput disabled={this.state.disabled} title="门店地址" type="text" value={this.state.Address} onChange={this.onStateChange('Address')} />
+          <AtInput disabled={this.state.disabled} title="工商认证" type="text" value={this.state.Cert} onChange={this.onStateChange('Cert')} />
+          <AtCalendar disabled={this.state.disabled} onSelectDate={this.onRegChange} />
+          <AtInput disabled={this.state.disabled} title="注册时间" type="text" value={this.state.RegTime}>
+            <Picker disabled={this.state.disabled} mode='date' value={this.state.RegTime} onChange={this.onRegChange}>
+              <AtButton disabled={this.state.disabled}>选择日期</AtButton>
             </Picker>
           </AtInput>
 
         </AtForm>
         <View className="btn-view">
-          <AtButton onClick={this.onSubmit} type='primary'>提交</AtButton>
+          <AtButton disabled={this.state.disabled} onClick={this.onSubmit} type='primary'>提交</AtButton>
         </View>
       </View >
     )

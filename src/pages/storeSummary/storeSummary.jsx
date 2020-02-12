@@ -91,15 +91,6 @@ export default class StoreSummary extends Component {
           <AtListItem title='商品仓库' arrow='right' />
           <AtListItem title='辅助功能' arrow='right' />
         </AtList>
-        <AtTabBar
-          fixed
-          tabList={[
-            { title: '商店', iconType: 'shopping-bag' },
-            { title: '消息', iconType: 'message' },
-            { title: '数据', iconType: 'analytics' },
-            { title: '表单', iconType: 'menu' },
-          ]}
-        />
       </View>
     )
   }

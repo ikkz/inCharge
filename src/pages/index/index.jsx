@@ -36,7 +36,7 @@ export default class Index extends Component {
           util.isNull(response.data.Phone)
         )) {
           Taro.redirectTo({
-            url: `/pages/userInfo/userInfo?id=${response.data.ID}`,
+            url: `/pages/userInfo/userInfo?id=${response.data.ID}&disabled=false`,
           });
         }
       }
@@ -60,7 +60,7 @@ export default class Index extends Component {
 
   onCreateStoreClick = () => {
     Taro.navigateTo({
-      url: '/pages/storeInfo/storeInfo',
+      url: '/pages/storeInfo/storeInfo?disabled=false',
     });
   }
 
@@ -90,7 +90,7 @@ export default class Index extends Component {
   }
 
   onStoreClick = (id) => {
-    Taro.redirectTo({
+    Taro.switchTab({
       url: `/pages/storeSummary/storeSummary?id=${id}`
     });
   }
