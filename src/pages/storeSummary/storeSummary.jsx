@@ -14,11 +14,14 @@ export default class StoreSummary extends Component {
     }
   }
 
+  componentWillMount() {
+    const storeId = Taro.getStorageSync('store');
+    if (!util.isNull(storeId)) {
+      this.id = parseInt(storeId);
+    }
+  }
 
   componentDidShow() {
-    if (this.id === 0 && this.$router.params.id) {
-      this.id = this.$router.params.id
-    }
     Taro.startPullDownRefresh();
   }
 
@@ -84,7 +87,7 @@ export default class StoreSummary extends Component {
         </View>
 
         <AtList>
-          <AtListItem title='在售商品概览' arrow='right' />
+          <AtListItem title='在售商品概览' arrow='right' onClick={util.makeNavigate('/pages/products/products')} />
           <AtListItem title='会员管理' arrow='right' />
           <AtListItem title='商券代金' arrow='right' />
           <AtListItem title='商品折扣' arrow='right' />

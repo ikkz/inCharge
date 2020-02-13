@@ -28,7 +28,6 @@ export default class StoreInfo extends Component {
       });
       Taro.startPullDownRefresh();
     }
-    console.log(this.$router.params);
     if (this.$router.params.disabled) {
       this.setState({
         disabled: this.$router.params.disabled === "true"

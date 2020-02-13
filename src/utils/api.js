@@ -10,6 +10,12 @@ const apis = {
     getStoreInfo: domin + '/store/info POST A',
     updateStoreInfo: domin + '/store/update POST A',
     getStoreByBoss: domin + '/store/by-boss POST A',
+
+    getProduct: domin + '/product/info POST A',
+    updateProduct: domin + '/product/update POST A',
+    enterWarehouse: domin + '/product/enter-warehouse POST A',
+    enterShelf: domin + '/product/enter-shelf POST A',
+    leaveShelf: domin + '/product/leave-shelf POST A'
 };
 
 export const errors = {
@@ -56,7 +62,7 @@ export const mRequest = (apiUrl, data) => {
     });
 }
 
-export const login = async({
+export const login = async ({
     code //*
 } = {}) => {
     const data = await mRequest(apis.login, {
@@ -69,7 +75,7 @@ export const login = async({
     }
 }
 
-export const getUserInfo = async({
+export const getUserInfo = async ({
     id
 } = {}) => {
     return await mRequest(apis.getUserInfo, {
@@ -77,7 +83,7 @@ export const getUserInfo = async({
     });
 }
 
-export const updateUserInfo = async({
+export const updateUserInfo = async ({
     id,
     Name,
     Sex,
@@ -99,7 +105,7 @@ export const updateUserInfo = async({
     });
 }
 
-export const getStoreInfo = async({
+export const getStoreInfo = async ({
     id
 } = {}) => {
     return await mRequest(apis.getStoreInfo, {
@@ -107,7 +113,7 @@ export const getStoreInfo = async({
     });
 }
 
-export const updateStoreInfo = async({
+export const updateStoreInfo = async ({
     id,
     Name,
     FullName,
@@ -129,10 +135,94 @@ export const updateStoreInfo = async({
     });
 }
 
-export const getStoreByBoss = async({
+export const getStoreByBoss = async ({
     id
 } = {}) => {
     return await mRequest(apis.getStoreByBoss, {
+        id
+    });
+}
+
+export const getProduct = async ({
+    id
+} = {}) => {
+    return await mRequest(apis.getProduct, {
+        id
+    });
+}
+
+export const updateProduct = async ({
+    StoreID,
+    Cost,
+    Price,
+    Classification,
+    WarehouseRest,
+    WarehouseTime,
+    WarehouseAddress,
+    ShelfRest,
+    ShelfTime,
+    ShelfAddress,
+    Code,
+    ExpTime,
+} = {}) => {
+    return await mRequest(apis.updateProduct, {
+        StoreID,
+        Cost,
+        Price,
+        Classification,
+        WarehouseRest,
+        WarehouseTime,
+        WarehouseAddress,
+        ShelfRest,
+        ShelfTime,
+        ShelfAddress,
+        Code,
+        ExpTime,
+    });
+}
+
+export const enterShelf = async ({
+    ProductID,
+    Count,
+    ShelfTime,
+    ShelfAddress,
+} = {}) => {
+    return await mRequest(apis.enterShelf, {
+        ProductID,
+        Count,
+        ShelfTime,
+        ShelfAddress,
+    });
+}
+
+export const enterWarehouse = async ({
+    StoreID,
+    Cost,
+    Price,
+    Classification,
+    WarehouseRest,
+    WarehouseTime,
+    WarehouseAddress,
+    Code,
+    ExpTime,
+} = {}) => {
+    return await mRequest(apis.enterWarehouse, {
+        StoreID,
+        Cost,
+        Price,
+        Classification,
+        WarehouseRest,
+        WarehouseTime,
+        WarehouseAddress,
+        Code,
+        ExpTime,
+    });
+}
+
+export const leaveShelf = async ({
+    id
+} = {}) => {
+    return await mRequest(apis.leaveShelf, {
         id
     });
 }

@@ -30,6 +30,10 @@ class App extends Component {
       'pages/setting/setting',
       'pages/warehouse/warehouse',
       'pages/data/data',
+
+      'pages/products/products',
+      'pages/productInfo/productInfo',
+
     ],
     window: {
       backgroundTextStyle: 'dark',
