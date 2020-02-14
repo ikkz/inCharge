@@ -48,8 +48,8 @@ export default class ProductInfo extends Component {
           id: this.id
         });
         if (response.code === api.errors.Ok) {
-          this.setState({
-            product: response.data
+          response.data.length !== 0 && this.setState({
+            product: response.data[0]
           });
         }
       } catch (error) {

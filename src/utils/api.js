@@ -1,4 +1,20 @@
-import Taro from '@tarojs/taro';
+let tokenLoader = () => {
+    const Taro = require('@tarojs/taro');
+    return Taro.getStorageSync && Taro.getStorageSync('token');
+}
+
+let request = (opts) => {
+    const Taro = require('@tarojs/taro');
+    return Taro.request && Taro.request(opts);
+}
+
+const setTokenLoader = (tl) => {
+    tl && (tokenLoader = tl);
+}
+
+const setRequest = (req) => {
+    req && (request = req);
+}
 
 const domin = 'http://ic.cildhdi.cn/api';
 
@@ -18,7 +34,7 @@ const apis = {
     leaveShelf: domin + '/product/leave-shelf POST A'
 };
 
-export const errors = {
+const errors = {
     Ok: 0,
     ParamError: 1,
     DatabaseError: 2,
@@ -26,7 +42,7 @@ export const errors = {
 };
 
 const makeHeader = () => {
-    const token = Taro.getStorageSync('token');
+    const token = tokenLoader();
     if (token && token.length !== 0) {
         return {
             'Authorization': `Bearer ${token}`
@@ -36,14 +52,14 @@ const makeHeader = () => {
     }
 }
 
-export const mRequest = (apiUrl, data) => {
+const mRequest = (apiUrl, data) => {
     const [url, method, needAuth] = apiUrl.split(' ');
     let header = {};
     if (needAuth && needAuth.startsWith('A')) {
         header = makeHeader();
     }
     return new Promise((resolve, reject) => {
-        Taro.request({
+        request({
             url: url,
             method: method,
             header: header,
@@ -51,8 +67,8 @@ export const mRequest = (apiUrl, data) => {
             data: data,
             success: (res) => {
                 if (res.statusCode == 200 && res.data) {
-                    resolve(res.data);
                     console.log(res.data);
+                    resolve(res.data);
                 } else {
                     reject();
                 }
@@ -62,7 +78,7 @@ export const mRequest = (apiUrl, data) => {
     });
 }
 
-export const login = async ({
+const login = async ({
     code //*
 } = {}) => {
     const data = await mRequest(apis.login, {
@@ -75,7 +91,7 @@ export const login = async ({
     }
 }
 
-export const getUserInfo = async ({
+const getUserInfo = async ({
     id
 } = {}) => {
     return await mRequest(apis.getUserInfo, {
@@ -83,7 +99,7 @@ export const getUserInfo = async ({
     });
 }
 
-export const updateUserInfo = async ({
+const updateUserInfo = async ({
     id,
     Name,
     Sex,
@@ -105,7 +121,7 @@ export const updateUserInfo = async ({
     });
 }
 
-export const getStoreInfo = async ({
+const getStoreInfo = async ({
     id
 } = {}) => {
     return await mRequest(apis.getStoreInfo, {
@@ -113,7 +129,7 @@ export const getStoreInfo = async ({
     });
 }
 
-export const updateStoreInfo = async ({
+const updateStoreInfo = async ({
     id,
     Name,
     FullName,
@@ -135,7 +151,7 @@ export const updateStoreInfo = async ({
     });
 }
 
-export const getStoreByBoss = async ({
+const getStoreByBoss = async ({
     id
 } = {}) => {
     return await mRequest(apis.getStoreByBoss, {
@@ -143,15 +159,39 @@ export const getStoreByBoss = async ({
     });
 }
 
-export const getProduct = async ({
-    id
+const getProduct = async ({
+    id,
+    StoreID,
+    Cost,
+    Price,
+    Classification,
+    WarehouseRest,
+    WarehouseTime,
+    WarehouseAddress,
+    ShelfRest,
+    ShelfTime,
+    ShelfAddress,
+    Code,
+    ExpTime,
 } = {}) => {
     return await mRequest(apis.getProduct, {
-        id
+        id,
+        StoreID,
+        Cost,
+        Price,
+        Classification,
+        WarehouseRest,
+        WarehouseTime,
+        WarehouseAddress,
+        ShelfRest,
+        ShelfTime,
+        ShelfAddress,
+        Code,
+        ExpTime,
     });
 }
 
-export const updateProduct = async ({
+const updateProduct = async ({
     StoreID,
     Cost,
     Price,
@@ -181,7 +221,7 @@ export const updateProduct = async ({
     });
 }
 
-export const enterShelf = async ({
+const enterShelf = async ({
     ProductID,
     Count,
     ShelfTime,
@@ -195,7 +235,7 @@ export const enterShelf = async ({
     });
 }
 
-export const enterWarehouse = async ({
+const enterWarehouse = async ({
     StoreID,
     Cost,
     Price,
@@ -219,10 +259,28 @@ export const enterWarehouse = async ({
     });
 }
 
-export const leaveShelf = async ({
+const leaveShelf = async ({
     id
 } = {}) => {
     return await mRequest(apis.leaveShelf, {
         id
     });
+}
+
+module.exports = {
+    setTokenLoader,
+    setRequest,
+
+    errors,
+    login,
+    getUserInfo,
+    updateUserInfo,
+    getStoreInfo,
+    updateStoreInfo,
+    getStoreByBoss,
+    getProduct,
+    updateProduct,
+    enterShelf,
+    enterWarehouse,
+    leaveShelf
 }

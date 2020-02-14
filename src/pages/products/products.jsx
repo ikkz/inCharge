@@ -1,9 +1,11 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './products.css'
+import '../../app.css'
 import * as util from '../../utils/util';
 import * as api from '../../utils/api';
 import { AtInput, AtButton } from 'taro-ui';
+import ProductPreview from '../../components/productPreview';
 
 export default class Products extends Component {
   config = {
@@ -33,7 +35,9 @@ export default class Products extends Component {
       Taro.showLoading({
         title: '加载商品中'
       });
-      let response = api.getProduct();
+      let response = api.getProduct({
+        StoreID: parseInt(Taro.getStorageSync('store'))
+      });
       if (response.code === api.errors.Ok) {
         this.setState({
           products: response.data
@@ -55,7 +59,27 @@ export default class Products extends Component {
   render() {
     return (
       <View className='products'>
-        <AtButton onClick={this.onCreateProduct}>创建商品</AtButton>
+        <View className="btn-view">
+          <View style={{
+            display: 'flex'
+          }}>
+            <View style={{
+              flex: 1,
+              paddingRight: '7px'
+            }}>
+              <AtButton onClick={this.onCreateProduct}>创建商品</AtButton>
+            </View>
+            <View style={{
+              flex: 1,
+              paddingRight: '7px'
+            }}>
+              <AtButton>管理记录</AtButton>
+            </View>
+          </View>
+          {this.state.products.map((value) => {
+            return <ProductPreview {...value} />;
+          })}
+        </View>
       </View>
     )
   }
