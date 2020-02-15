@@ -29,9 +29,9 @@ const apis = {
 
     getProduct: domin + '/product/info POST A',
     updateProduct: domin + '/product/update POST A',
-    enterWarehouse: domin + '/product/enter-warehouse POST A',
-    enterShelf: domin + '/product/enter-shelf POST A',
-    leaveShelf: domin + '/product/leave-shelf POST A'
+
+    getWarehouses: domin + '/warehouse/all POST A',
+    createWarehouse: domin + '/warehouse/new POST A',
 };
 
 const errors = {
@@ -161,111 +161,52 @@ const getStoreByBoss = async ({
 
 const getProduct = async ({
     id,
-    StoreID,
-    Cost,
-    Price,
-    Classification,
-    WarehouseRest,
-    WarehouseTime,
-    WarehouseAddress,
-    ShelfRest,
-    ShelfTime,
-    ShelfAddress,
-    Code,
-    ExpTime,
+    OwnerID,
+    InShelf,
 } = {}) => {
     return await mRequest(apis.getProduct, {
         id,
-        StoreID,
-        Cost,
-        Price,
-        Classification,
-        WarehouseRest,
-        WarehouseTime,
-        WarehouseAddress,
-        ShelfRest,
-        ShelfTime,
-        ShelfAddress,
-        Code,
-        ExpTime,
+        OwnerID,
+        InShelf,
     });
 }
 
 const updateProduct = async ({
-    StoreID,
+    id,
+    Name,
     Cost,
     Price,
     Classification,
-    WarehouseRest,
-    WarehouseTime,
-    WarehouseAddress,
-    ShelfRest,
-    ShelfTime,
-    ShelfAddress,
-    Code,
-    ExpTime,
+    Address,
+    Code
 } = {}) => {
     return await mRequest(apis.updateProduct, {
-        StoreID,
+        id,
+        Name,
         Cost,
         Price,
         Classification,
-        WarehouseRest,
-        WarehouseTime,
-        WarehouseAddress,
-        ShelfRest,
-        ShelfTime,
-        ShelfAddress,
-        Code,
-        ExpTime,
+        Address,
+        Code
     });
 }
 
-const enterShelf = async ({
-    ProductID,
-    Count,
-    ShelfTime,
-    ShelfAddress,
+const getWarehouses = async ({
+    StoreID
 } = {}) => {
-    return await mRequest(apis.enterShelf, {
-        ProductID,
-        Count,
-        ShelfTime,
-        ShelfAddress,
+    return await mRequest(apis.getWarehouses, {
+        StoreID
     });
 }
 
-const enterWarehouse = async ({
-    StoreID,
-    Cost,
-    Price,
-    Classification,
-    WarehouseRest,
-    WarehouseTime,
-    WarehouseAddress,
-    Code,
-    ExpTime,
+const createWarehouse = async ({
+    StoreID
 } = {}) => {
-    return await mRequest(apis.enterWarehouse, {
-        StoreID,
-        Cost,
-        Price,
-        Classification,
-        WarehouseRest,
-        WarehouseTime,
-        WarehouseAddress,
-        Code,
-        ExpTime,
+    return await mRequest(apis.createWarehouse, {
+        StoreID
     });
 }
 
-const leaveShelf = async ({
-    id
-} = {}) => {
-    return await mRequest(apis.leaveShelf, {
-        id
-    });
-}
 
 module.exports = {
     setTokenLoader,
@@ -280,7 +221,6 @@ module.exports = {
     getStoreByBoss,
     getProduct,
     updateProduct,
-    enterShelf,
-    enterWarehouse,
-    leaveShelf
+    getWarehouses,
+    createWarehouse
 }

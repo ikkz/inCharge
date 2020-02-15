@@ -29,7 +29,7 @@ export default class UserInfo extends Component {
     }
     if (this.$router.params.disabled) {
       this.setState({
-        disabled: this.$router.params.disabled === "true"
+        disabled: this.$router.params.disabled !== "false"
       });
     }
   }

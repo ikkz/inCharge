@@ -1,7 +1,8 @@
-import { Component } from "@tarojs/taro";
+import Taro, { Component } from "@tarojs/taro";
 import { AtCard } from "taro-ui";
 import { View } from "@tarojs/components";
 import SummaryCard from "./summaryCard";
+import * as util from '../utils/util';
 
 export default function ProductPreview(props) {
     const {
@@ -10,11 +11,10 @@ export default function ProductPreview(props) {
         Price,
         ShelfRest,
         ShelfTime,
+        onClick
     } = props;
-    return <AtCard title={Name} extra={ShelfTime} style="padding:10" onClick={onClick}>
-        <View style={{
-            display: flex
-        }}>
+    return <AtCard title={Name} extra={util.tsToDate(ShelfTime)} style="padding:10" onClick={onClick}>
+        <View style="display:flex">
             <View style={{
                 flex: 1
             }}>

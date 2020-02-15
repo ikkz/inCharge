@@ -33,7 +33,6 @@ class App extends Component {
 
       'pages/products/products',
       'pages/productInfo/productInfo',
-
     ],
     window: {
       backgroundTextStyle: 'dark',

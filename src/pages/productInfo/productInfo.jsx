@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Picker } from '@tarojs/components'
 import './productInfo.css'
+import '../../app.css';
 
 import * as api from '../../utils/api';
 import * as util from '../../utils/util';
@@ -44,13 +45,15 @@ export default class ProductInfo extends Component {
         title: '加载中'
       });
       try {
-        let response = api.getProduct({
+        let response = await api.getProduct({
           id: this.id
         });
         if (response.code === api.errors.Ok) {
-          response.data.length !== 0 && this.setState({
-            product: response.data[0]
-          });
+          if (response.data.length !== 0) {
+            this.setState({
+              product: response.data[0]
+            });
+          }
         }
       } catch (error) {
         console.error(error);
@@ -65,17 +68,15 @@ export default class ProductInfo extends Component {
   }
 
   changeField = (field, isDate) => {
-    return ({
-      onChange: (value) => {
-        let product = {
-          ...this.state.product
-        };
-        product[field] = isDate ? Date.parse(value.detail.value) : value;
-        this.setState({
-          product
-        });
-      }
-    });
+    return (value) => {
+      let product = {
+        ...this.state.product
+      };
+      product[field] = isDate ? Date.parse(value.detail.value) : value;
+      this.setState({
+        product
+      });
+    };
   }
 
   submit = async () => {
@@ -121,31 +122,32 @@ export default class ProductInfo extends Component {
   render() {
     return (
       <View className='productInfo'>
-        <AtInput disabled={this.state.disabled} title='成本' type='digit' {... this.changeField("Cost")} />
-        <AtInput disabled={this.state.disabled} title='价格' type='digit' {... this.changeField("Price")} />
-        <AtInput disabled={this.state.disabled} title='分类' type='text' {... this.changeField("Classification")} />
+        <AtInput disabled={this.state.disabled} title='成本' type='digit' onChange={this.changeField("Cost")} value={this.state.product.Cost} />
+        <AtInput disabled={this.state.disabled} title='价格' type='digit' onChange={this.changeField("Price")} value={this.state.product.Price} />
+        <AtInput disabled={this.state.disabled} title='分类' type='text' onChange={this.changeField("Classification")} value={this.state.product.Classification} />
 
-        <AtInput disabled={this.state.disabled} title='余量' type='number' {... this.changeField("ShelfRest")} />
+        <AtInput disabled={this.state.disabled} title='余量' type='number' onChange={this.changeField("ShelfRest")} value={this.state.product.ShelfRest} />
         <AtInput disabled={this.state.disabled} title="上架时间" type="text" value={util.tsToDate(this.state.product.ShelfTime)}>
           <Picker disabled={this.state.disabled} mode='date' value={util.tsToDate(this.state.product.ShelfTime)}
-            onChange={this.changeField('ShelfTime', true)['onChange']}>
+            onChange={this.changeField('ShelfTime', true)}>
             <AtButton disabled={this.state.disabled}>选择日期</AtButton>
           </Picker>
         </AtInput>
 
-        <AtInput disabled={this.state.disabled} title='货架位置' type='number' {... this.changeField("ShelfAddress")} />
+        <AtInput disabled={this.state.disabled} title='货架位置' type='number' onChange={this.changeField("ShelfAddress")} value={this.state.product.ShelfAddress} />
 
-        <AtInput disabled={this.state.disabled} title='商品编码' type='text' {... this.changeField("Code")} />
+        <AtInput disabled={this.state.disabled} title='商品编码' type='text' onChange={this.changeField("Code")} value={this.state.product.Code} />
         <AtInput disabled={this.state.disabled} title="过期日期" type="text" value={util.tsToDate(this.state.product.ExpTime)}>
           <Picker disabled={this.state.disabled} mode='date' value={util.tsToDate(this.state.product.ExpTime)}
-            onChange={this.changeField('ExpTime', true)['onChange']}>
+            onChange={this.changeField('ExpTime', true)}>
             <AtButton disabled={this.state.disabled}>选择日期</AtButton>
           </Picker>
         </AtInput>
-
-        <AtButton disabled={this.state.disabled} onClick={this.submit}>
-          确定
+        <View className="btn-view">
+          <AtButton disabled={this.state.disabled} onClick={this.submit}>
+            确定
         </AtButton>
+        </View>
       </View>
     )
   }

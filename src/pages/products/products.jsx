@@ -35,10 +35,11 @@ export default class Products extends Component {
       Taro.showLoading({
         title: '加载商品中'
       });
-      let response = api.getProduct({
+      let response = await api.getProduct({
         StoreID: parseInt(Taro.getStorageSync('store'))
       });
       if (response.code === api.errors.Ok) {
+        console.log(response.data);
         this.setState({
           products: response.data
         });
@@ -56,13 +57,17 @@ export default class Products extends Component {
     });
   }
 
+  onProductClick = (id) => {
+    Taro.navigateTo({
+      url: `/pages/productInfo/productInfo?id=${id}`
+    });
+  }
+
   render() {
     return (
       <View className='products'>
         <View className="btn-view">
-          <View style={{
-            display: 'flex'
-          }}>
+          <View style="display:flex">
             <View style={{
               flex: 1,
               paddingRight: '7px'
@@ -76,10 +81,13 @@ export default class Products extends Component {
               <AtButton>管理记录</AtButton>
             </View>
           </View>
-          {this.state.products.map((value) => {
-            return <ProductPreview {...value} />;
-          })}
         </View>
+        {this.state.products.map((value) => {
+          return <View key={value.ID}
+            style="padding:5px">
+            <ProductPreview {...value} onClick={() => this.onProductClick(value.ID)} />
+          </View>
+        })}
       </View>
     )
   }
