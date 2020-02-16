@@ -33,11 +33,13 @@ class App extends Component {
 
       'pages/products/products',
       'pages/productInfo/productInfo',
+      'pages/productTransfer/productTransfer',
+      'pages/warehouseLog/warehouseLog',
     ],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: '享售',
       navigationBarTextStyle: 'black'
     },
     tabBar: {

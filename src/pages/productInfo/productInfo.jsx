@@ -12,7 +12,7 @@ export default class ProductInfo extends Component {
   id = 0;
   state = {
     product: {
-      ShelfTime: Date.now(),
+      Time: Date.now(),
       ExpTime: Date.now()
     },
     disabled: true
@@ -81,60 +81,53 @@ export default class ProductInfo extends Component {
 
   submit = async () => {
     if (
+      util.isNull(this.state.product.Name) ||
       util.isNull(this.state.product.Cost) ||
       util.isNull(this.state.product.Price) ||
       util.isNull(this.state.product.Classification) ||
-      util.isNull(this.state.product.ShelfRest) ||
-      util.isNull(this.state.product.ShelfTime) ||
-      util.isNull(this.state.product.ShelfAddress) ||
+      util.isNull(this.state.product.Rest) ||
+      util.isNull(this.state.product.Time) ||
+      util.isNull(this.state.product.Address) ||
       util.isNull(this.state.product.Code) ||
       util.isNull(this.state.product.ExpTime)
     ) {
       Taro.showToast({
-        title: '部分信息不全，请重新填写'
+        title: '部分信息不全，请重新填写',
+        icon: 'none'
       });
       return;
     }
-    Taro.showLoading({
-      title: '提交中'
+    const eventChannel = this.$scope.getOpenerEventChannel();
+    eventChannel.emit('acceptProductInfo', {
+      Name: this.state.product.Name,
+      Cost: parseFloat(this.state.product.Cost),
+      Price: parseFloat(this.state.product.Price),
+      Classification: this.state.product.Classification,
+      Rest: parseInt(this.state.product.Rest),
+      Time: this.state.product.Time,
+      Address: parseInt(this.state.product.Address),
+      Code: this.state.product.Code,
+      ExpTime: this.state.product.ExpTime,
     });
-    try {
-      let response = await api.updateProduct({
-        Cost: parseFloat(this.state.product.Cost),
-        Price: parseFloat(this.state.product.Price),
-        Classification: this.state.product.Classification,
-        ShelfRest: parseInt(this.state.product.ShelfRest),
-        ShelfTime: this.state.product.ShelfTime,
-        ShelfAddress: parseInt(this.state.product.ShelfAddress),
-        Code: this.state.product.Code,
-        ExpTime: this.state.product.ExpTime,
-      });
-      if (response.code !== api.errors.Ok) {
-        console.error(response);
-      }
-    } catch (error) {
-      console.error(response);
-    } finally {
-      Taro.hideLoading();
-    }
   }
 
   render() {
     return (
       <View className='productInfo'>
+        <AtInput disabled={this.state.disabled} title='名称' type='text' onChange={this.changeField("Name")} value={this.state.product.Name} />
         <AtInput disabled={this.state.disabled} title='成本' type='digit' onChange={this.changeField("Cost")} value={this.state.product.Cost} />
         <AtInput disabled={this.state.disabled} title='价格' type='digit' onChange={this.changeField("Price")} value={this.state.product.Price} />
         <AtInput disabled={this.state.disabled} title='分类' type='text' onChange={this.changeField("Classification")} value={this.state.product.Classification} />
 
-        <AtInput disabled={this.state.disabled} title='余量' type='number' onChange={this.changeField("ShelfRest")} value={this.state.product.ShelfRest} />
-        <AtInput disabled={this.state.disabled} title="上架时间" type="text" value={util.tsToDate(this.state.product.ShelfTime)}>
-          <Picker disabled={this.state.disabled} mode='date' value={util.tsToDate(this.state.product.ShelfTime)}
-            onChange={this.changeField('ShelfTime', true)}>
+        <AtInput disabled={this.state.disabled} title='余量' type='number' onChange={this.changeField("Rest")} value={this.state.product.Rest} />
+        <AtInput disabled={this.state.disabled} title="上架时间" type="text" value={util.tsToDate(this.state.product.Time)}>
+          <Picker disabled={this.state.disabled} mode='date' value={util.tsToDate(this.state.product.Time)}
+            onChange={this.changeField('Time', true)}>
             <AtButton disabled={this.state.disabled}>选择日期</AtButton>
           </Picker>
         </AtInput>
 
-        <AtInput disabled={this.state.disabled} title='货架位置' type='number' onChange={this.changeField("ShelfAddress")} value={this.state.product.ShelfAddress} />
+        <AtInput disabled={this.state.disabled} title='货架位置' type='number' onChange={this.changeField("Address")} value={this.state.product.Address} />
 
         <AtInput disabled={this.state.disabled} title='商品编码' type='text' onChange={this.changeField("Code")} value={this.state.product.Code} />
         <AtInput disabled={this.state.disabled} title="过期日期" type="text" value={util.tsToDate(this.state.product.ExpTime)}>

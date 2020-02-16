@@ -7,6 +7,11 @@ import { AtAvatar, AtButton, AtGrid, AtList, AtListItem, AtTabBar } from 'taro-u
 import SummaryCard from '../../components/summaryCard';
 
 export default class StoreSummary extends Component {
+  config = {
+    navigationBarTitleText: '商铺概览',
+    enablePullDownRefresh: true
+  }
+
   id = 0;
   state = {
     storeInfo: {
@@ -39,10 +44,10 @@ export default class StoreSummary extends Component {
     })();
   }
 
-
-  config = {
-    navigationBarTitleText: '商铺概览',
-    enablePullDownRefresh: true
+  viewProducts = () => {
+    Taro.navigateTo({
+      url: `/pages/products/products?fn=getProduct&param={"OwnerID":${parseInt(Taro.getStorageSync('store'))},"InShelf":true}`
+    });
   }
 
   render() {
@@ -87,7 +92,7 @@ export default class StoreSummary extends Component {
         </View>
 
         <AtList>
-          <AtListItem title='在售商品概览' arrow='right' onClick={util.makeNavigate('/pages/products/products')} />
+          <AtListItem title='在售商品概览' arrow='right' onClick={this.viewProducts} />
           <AtListItem title='会员管理' arrow='right' />
           <AtListItem title='商券代金' arrow='right' />
           <AtListItem title='商品折扣' arrow='right' />

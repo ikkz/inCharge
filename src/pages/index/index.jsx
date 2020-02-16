@@ -102,8 +102,9 @@ export default class Index extends Component {
     }
   }
 
-  onStoreClick = (id) => {
-    Taro.setStorageSync('store', id);
+  onStoreClick = (v) => {
+    Taro.setStorageSync('store', v.ID);
+    Taro.getApp().store = v;
     Taro.switchTab({
       url: `/pages/storeSummary/storeSummary`
     });
@@ -117,7 +118,7 @@ export default class Index extends Component {
         <AtTabsPane current={this.state.currentTab} index={0}>
           {this.state.bossStores.map((value) => {
             return <View key={value.ID} className="store-preview">
-              <StorePreview {...value} onClick={() => this.onStoreClick(value.ID)} />
+              <StorePreview {...value} onClick={() => this.onStoreClick(value)} />
             </View>;
           })}
           <View className="btn-view">
@@ -127,7 +128,7 @@ export default class Index extends Component {
         <AtTabsPane current={this.state.currentTab} index={1}>
           {this.state.stores.map((value) => {
             return <View key={value.ID} className="store-preview">
-              <StorePreview {...value} onClick={() => this.onStoreClick(value.ID)} />
+              <StorePreview {...value} onClick={() => this.onStoreClick(value)} />
             </View>;
           })}
         </AtTabsPane>

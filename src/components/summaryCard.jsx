@@ -5,7 +5,7 @@ export default function SummaryCard({ name, value }) {
         padding: '10px',
     }}>
         <View style={{
-            padding: '20px 5px',
+            padding: '10px 5px',
             backgroundColor: '#eee'
         }}>
             <View style={{

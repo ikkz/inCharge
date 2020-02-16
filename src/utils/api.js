@@ -29,6 +29,7 @@ const apis = {
 
     getProduct: domin + '/product/info POST A',
     updateProduct: domin + '/product/update POST A',
+    transferProduct: domin + '/product/transfer POST A',
 
     getWarehouses: domin + '/warehouse/all POST A',
     createWarehouse: domin + '/warehouse/new POST A',
@@ -207,6 +208,19 @@ const createWarehouse = async ({
     });
 }
 
+const tranferProduct = async ({
+    Action,
+    OwnerTo,
+    Products,
+    NewProducts,
+} = {}) => {
+    return await mRequest(apis.transferProduct, {
+        Action,
+        OwnerTo,
+        Products,
+        NewProducts,
+    });
+}
 
 module.exports = {
     setTokenLoader,
@@ -221,6 +235,7 @@ module.exports = {
     getStoreByBoss,
     getProduct,
     updateProduct,
+    tranferProduct,
     getWarehouses,
     createWarehouse
 }
