@@ -35,6 +35,7 @@ class App extends Component {
       'pages/productInfo/productInfo',
       'pages/productTransfer/productTransfer',
       'pages/warehouseLog/warehouseLog',
+      'pages/vips/vips',
     ],
     window: {
       backgroundTextStyle: 'dark',

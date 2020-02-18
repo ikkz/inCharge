@@ -33,7 +33,10 @@ const apis = {
 
     getWarehouses: domin + '/warehouse/all POST A',
     createWarehouse: domin + '/warehouse/new POST A',
-    getWarehouseLogs: domin + '/warehouse/log POST A'
+    getWarehouseLogs: domin + '/warehouse/log POST A',
+
+    updateVip: domin + '/vip/update POST A',
+    getVip: domin + '/vip/info POST A'
 };
 
 const errors = {
@@ -233,6 +236,16 @@ const tranferProduct = async ({
     });
 }
 
+const getVip = async ({
+    ID,
+    StoreID
+}) => {
+    return await mRequest(apis.getVip, {
+        ID,
+        StoreID
+    });
+}
+
 module.exports = {
     setTokenLoader,
     setRequest,
@@ -249,5 +262,6 @@ module.exports = {
     tranferProduct,
     getWarehouses,
     createWarehouse,
-    getWarehouseLogs
+    getWarehouseLogs,
+    getVip
 }
