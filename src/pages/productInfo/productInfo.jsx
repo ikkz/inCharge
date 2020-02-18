@@ -109,6 +109,9 @@ export default class ProductInfo extends Component {
       Code: this.state.product.Code,
       ExpTime: this.state.product.ExpTime,
     });
+    Taro.showToast({
+      title: '操作完毕，您可以继续操作或者返回'
+    });
   }
 
   render() {

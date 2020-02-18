@@ -9,6 +9,11 @@ const config = {
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
+    copy: {
+        patterns: [
+            { from: 'sitemap.json', to: 'dist/sitemap.json' }
+        ]
+    },
     babel: {
         sourceMap: true,
         presets: [
@@ -75,7 +80,7 @@ const config = {
     }
 }
 
-module.exports = function(merge) {
+module.exports = function (merge) {
     if (process.env.NODE_ENV === 'development') {
         return merge({}, config, require('./dev'))
     }

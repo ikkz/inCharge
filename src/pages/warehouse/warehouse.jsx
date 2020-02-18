@@ -50,28 +50,48 @@ export default class Warehouse extends Component {
     }
   }
 
+  createWarehouse = async () => {
+    try {
+      Taro.showLoading({
+        title: '创建中...'
+      });
+      let response = await api.createWarehouse({
+        StoreID: parseInt(Taro.getStorageSync('store'))
+      });
+      if (response.code === api.errors.Ok) {
+        Taro.hideLoading();
+        Taro.showToast({
+          title: `成功创建 ${response.data.ID} 号仓库`,
+          icon: 'none'
+        });
+        Taro.startPullDownRefresh();
+      }
+    } catch (error) {
+      Taro.hideLoading();
+      console.error(error);
+    }
+  }
+
   render() {
     return (
       <View className='warehouse'>
-        <View style="display:flex">
-          <View style="flex:1;padding:10px">
-            <Picker mode='selector' range={this.state.warehouses.map((value) => value.ID)}
-              onChange={this.selectWarehouse}>
-              <AtButton>切换仓库</AtButton>
-            </Picker>
-          </View>
-          <View style="flex:1;padding:10px">
-            <AtButton>新建仓库</AtButton>
-          </View>
-          <View style="flex:1;padding:10px">
-            <AtButton onClick={util.makeNavigate('/pages/productTransfer/productTransfer')}>出入库</AtButton>
-          </View>
-        </View>
         <AtList>
-          <AtListItem title='仓库商品概览' arrow='right'
-            onClick={util.makeNavigate(`/pages/products/products?fn=getProduct&param={"OwnerID":${this.state.id},"InShelf":false}`)} />
-          <AtListItem title='库存流水' arrow='right'
-            onClick={util.makeNavigate(`/pages/warehouseLog/warehouseLog?id=${this.state.id}`)} />
+          <Picker mode='selector' range={this.state.warehouses.map((value) => `${value.ID} 号仓库`)}
+            onChange={this.selectWarehouse}>
+            <AtListItem title='切换仓库' />
+          </Picker>
+          <AtListItem title='新建仓库' arrow='right' onClick={this.createWarehouse} />
+          {
+            this.state.id ?
+              <View>
+                <AtListItem title='出入库' arrow='right'
+                  onClick={util.makeNavigate('/pages/productTransfer/productTransfer')} />
+                <AtListItem title='仓库商品概览' arrow='right'
+                  onClick={util.makeNavigate(`/pages/products/products?fn=getProduct&param={"OwnerID":${this.state.id},"InShelf":false}`)} />
+                <AtListItem title='库存流水' arrow='right'
+                  onClick={util.makeNavigate(`/pages/warehouseLog/warehouseLog?id=${this.state.id}`)} />
+              </View> : <View />
+          }
         </AtList>
       </View >
     )
