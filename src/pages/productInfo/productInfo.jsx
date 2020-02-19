@@ -10,12 +10,13 @@ import { AtInput, AtButton } from 'taro-ui';
 export default class ProductInfo extends Component {
 
   id = 0;
+  disabled = true;
+  update = false;
   state = {
     product: {
       Time: Date.now(),
       ExpTime: Date.now()
     },
-    disabled: true
   }
 
   componentWillMount() {
@@ -23,9 +24,10 @@ export default class ProductInfo extends Component {
       this.id = parseInt(this.$router.params.id)
     }
     if (this.$router.params.disabled) {
-      this.setState({
-        disabled: this.$router.params.disabled !== "false"
-      });
+      this.disabled = this.$router.params.disabled !== "false";
+    }
+    if (this.$router.params.update) {
+      this.update = this.$router.params.update === "true";
     }
   }
 
@@ -79,6 +81,15 @@ export default class ProductInfo extends Component {
     };
   }
 
+  scan = async () => {
+    try {
+      let result = await util.getScanCode();
+      this.changeField("Code")(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   submit = async () => {
     if (
       util.isNull(this.state.product.Name) ||
@@ -97,8 +108,8 @@ export default class ProductInfo extends Component {
       });
       return;
     }
-    const eventChannel = this.$scope.getOpenerEventChannel();
-    eventChannel.emit('acceptProductInfo', {
+    let params = {
+      id: this.id,
       Name: this.state.product.Name,
       Cost: parseFloat(this.state.product.Cost),
       Price: parseFloat(this.state.product.Price),
@@ -108,10 +119,35 @@ export default class ProductInfo extends Component {
       Address: parseInt(this.state.product.Address),
       Code: this.state.product.Code,
       ExpTime: this.state.product.ExpTime,
-    });
-    Taro.showToast({
-      title: '操作完毕，您可以继续操作或者返回'
-    });
+    };
+    if (this.update) {
+      Taro.showLoading({
+        title: '提交中'
+      });
+      try {
+        let response = await api.updateProduct(params);
+        if (response.code !== api.errors.Ok) {
+          console.error(response);
+        } else {
+          Taro.hideLoading();
+          await Taro.showToast({
+            title: '修改成功'
+          });
+          Taro.navigateBack();
+        }
+      } catch (error) {
+        console.error(response);
+      } finally {
+        Taro.hideLoading();
+      }
+    } else {
+      const eventChannel = this.$scope.getOpenerEventChannel();
+      eventChannel.emit('acceptProductInfo', params);
+      Taro.showToast({
+        title: '操作完毕，您可以继续操作或者返回',
+        icon: 'none'
+      });
+    }
   }
 
   render() {
@@ -132,7 +168,10 @@ export default class ProductInfo extends Component {
 
         <AtInput disabled={this.state.disabled} title='货架位置' type='number' onChange={this.changeField("Address")} value={this.state.product.Address} />
 
-        <AtInput disabled={this.state.disabled} title='商品编码' type='text' onChange={this.changeField("Code")} value={this.state.product.Code} />
+        <AtInput disabled={this.state.disabled} title='商品编码' type='text' onChange={this.changeField("Code")} value={this.state.product.Code}>
+          <AtButton onClick={this.scan}>扫描</AtButton>
+        </AtInput>
+
         <AtInput disabled={this.state.disabled} title="过期日期" type="text" value={util.tsToDate(this.state.product.ExpTime)}>
           <Picker disabled={this.state.disabled} mode='date' value={util.tsToDate(this.state.product.ExpTime)}
             onChange={this.changeField('ExpTime', true)}>

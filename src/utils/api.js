@@ -30,6 +30,7 @@ const apis = {
     getProduct: domin + '/product/info POST A',
     updateProduct: domin + '/product/update POST A',
     transferProduct: domin + '/product/transfer POST A',
+    filterProduct: domin + '/product/filter POST A',
 
     getWarehouses: domin + '/warehouse/all POST A',
     createWarehouse: domin + '/warehouse/new POST A',
@@ -182,8 +183,11 @@ const updateProduct = async ({
     Cost,
     Price,
     Classification,
+    Rest,
+    Time,
     Address,
-    Code
+    Code,
+    ExpTime
 } = {}) => {
     return await mRequest(apis.updateProduct, {
         id,
@@ -191,9 +195,32 @@ const updateProduct = async ({
         Cost,
         Price,
         Classification,
+        Rest,
+        Time,
         Address,
-        Code
+        Code,
+        ExpTime
     });
+}
+
+const filterProduct = async ({
+    OwnerID,
+    InShelf,
+    Rest,
+    Time,
+    Cost,
+    Price,
+    Address
+} = {}) => {
+    return await mRequest(apis.filterProduct, {
+        OwnerID,
+        InShelf,
+        Rest,
+        Time,
+        Cost,
+        Price,
+        Address
+    })
 }
 
 const getWarehouses = async ({
@@ -260,6 +287,7 @@ module.exports = {
     getProduct,
     updateProduct,
     tranferProduct,
+    filterProduct,
     getWarehouses,
     createWarehouse,
     getWarehouseLogs,

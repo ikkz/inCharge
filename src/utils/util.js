@@ -24,3 +24,10 @@ export const tsToDate = (timestamp) => {
     let date = new Date(timestamp);
     return date.toLocaleDateString().replace('/', '-').replace('/', '-');
 }
+
+export const getScanCode = async () => {
+    let result = await Taro.scanCode({
+        onlyFromCamera: true
+    });
+    return result.result;
+}

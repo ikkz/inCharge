@@ -180,6 +180,13 @@ export default class ProductTransfer extends Component {
   }
 
   submit = async () => {
+    if (this.state.OwnerFrom + this.state.OwnerTo === 0) {
+      Taro.showToast({
+        title: '选择仓库或商店',
+        icon: 'none'
+      });
+      return;
+    }
     try {
       Taro.showLoading({
         title: '提交中'

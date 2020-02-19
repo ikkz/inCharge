@@ -4,7 +4,7 @@ import './products.css'
 import '../../app.css'
 import * as util from '../../utils/util';
 import * as api from '../../utils/api';
-import { AtInput, AtButton, AtCheckbox } from 'taro-ui';
+import { AtInput, AtButton, AtCheckbox, AtDivider, AtSearchBar } from 'taro-ui';
 import ProductPreview from '../../components/productPreview';
 
 export default class Products extends Component {
@@ -16,7 +16,8 @@ export default class Products extends Component {
   state = {
     products: [],
     options: [],
-    selectedList: []
+    selectedList: [],
+    searchText: ''
   }
 
   fn = '';
@@ -68,7 +69,7 @@ export default class Products extends Component {
 
   onProductClick = (id) => {
     Taro.navigateTo({
-      url: `/pages/productInfo/productInfo?id=${id}`
+      url: `/pages/productInfo/productInfo?id=${id}&disabled=false&update=true`
     });
   }
 
@@ -84,18 +85,58 @@ export default class Products extends Component {
     }));
   }
 
+  onSearchChange = (value) => {
+    this.setState({
+      searchText: value
+    });
+    this.onSelectChange([]);
+  }
+
+  scanSearch = async () => {
+    try {
+      let code = await util.getScanCode();
+      this.onSearchChange(code);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   render() {
     return (
       <View className='products'>
-        {this.select ?
-          <AtCheckbox options={this.state.options} selectedList={this.state.selectedList}
-            onChange={this.onSelectChange} /> :
-          this.state.products.map((value) => {
-            return <View key={value.ID}
-              style="padding:5px">
-              <ProductPreview {...value} onClick={() => this.onProductClick(value.ID)} />
-            </View>
-          })}
+        {
+          this.select ? <View /> :
+            <AtSearchBar showActionButton
+              value={this.state.searchText}
+              onChange={this.onSearchChange}
+              placeholder="输入名称/拼音/条码"
+              actionName="扫描条码" onActionClick={this.scanSearch}
+            />
+        }
+        {
+          this.state.products.length === 0 ?
+            <AtDivider content="没有商品可以显示" />
+            :
+            this.select ?
+              <AtCheckbox options={this.state.options} selectedList={this.state.selectedList}
+                onChange={this.onSelectChange} /> :
+              this.state.products.filter((v) => {
+                if (this.state.searchText.length == 0) {
+                  return v;
+                }
+                for (const text of [v.Name, v.Pinyin, v.Code]) {
+                  if (text.indexOf(this.state.searchText) >= 0) {
+                    return v;
+                  }
+                }
+              }).map((value) => {
+                return <View key={value.ID}
+                  style="padding:5px">
+                  <ProductPreview {...value} onClick={() => this.onProductClick(value.ID)} />
+                </View>
+              })
+
+        }
       </View>
     )
   }

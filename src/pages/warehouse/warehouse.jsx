@@ -88,6 +88,10 @@ export default class Warehouse extends Component {
                   onClick={util.makeNavigate('/pages/productTransfer/productTransfer')} />
                 <AtListItem title='仓库商品概览' arrow='right'
                   onClick={util.makeNavigate(`/pages/products/products?fn=getProduct&param={"OwnerID":${this.state.id},"InShelf":false}`)} />
+                <AtListItem title='仓库商品搜索' arrow='right'
+                  onClick={util.makeNavigate(`/pages/products/products?fn=getProduct&param={"OwnerID":${this.state.id},"InShelf":false}`)} />
+                <AtListItem title='仓库商品筛选' arrow='right'
+                  onClick={util.makeNavigate(`/pages/filter/filter?param={"OwnerID":${this.state.id},"InShelf":false}`)} />
                 <AtListItem title='库存流水' arrow='right'
                   onClick={util.makeNavigate(`/pages/warehouseLog/warehouseLog?id=${this.state.id}`)} />
               </View> : <View />
