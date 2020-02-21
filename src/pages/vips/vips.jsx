@@ -43,7 +43,7 @@ export default class Vips extends Component {
           {
             this.state.vips.map((v) => {
               return <AtListItem key={v.ID} title={v.Name}
-                note={`${v.Phone}    积分:${v.Points}    余额:${v.Money}`}
+                note={`${v.Phone} 积分:${v.Points} 余额:${v.Money}`}
                 extraText={`会员号: ${v.ID}`} />;
             })
           }

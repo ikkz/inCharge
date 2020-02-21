@@ -37,7 +37,10 @@ const apis = {
     getWarehouseLogs: domin + '/warehouse/log POST A',
 
     updateVip: domin + '/vip/update POST A',
-    getVip: domin + '/vip/info POST A'
+    getVip: domin + '/vip/info POST A',
+
+    createTicket: domin + '/ticket/create POST A',
+    getTickets: domin + '/ticket/all POST A'
 };
 
 const errors = {
@@ -273,6 +276,44 @@ const getVip = async ({
     });
 }
 
+const createTicket = async ({
+    StoreID,
+    Name,
+    Begin,
+    End,
+    Type,
+    Percent,
+    Original,
+    Reduce,
+    GetType,
+    Count,
+    Key,
+    Level
+} = {}) => {
+    return await mRequest(apis.createTicket, {
+        StoreID,
+        Name,
+        Begin,
+        End,
+        Type,
+        Percent,
+        Original,
+        Reduce,
+        GetType,
+        Count,
+        Key,
+        Level
+    });
+}
+
+const getTickets = async ({
+    StoreID
+} = {}) => {
+    return await mRequest(apis.getTickets, {
+        StoreID
+    });
+}
+
 module.exports = {
     setTokenLoader,
     setRequest,
@@ -291,5 +332,7 @@ module.exports = {
     getWarehouses,
     createWarehouse,
     getWarehouseLogs,
-    getVip
+    getVip,
+    createTicket,
+    getTickets
 }

@@ -95,9 +95,12 @@ export default class StoreSummary extends Component {
           <AtListItem title='在售商品概览' arrow='right' onClick={this.viewProducts} />
           <AtListItem title='会员管理' arrow='right'
             onClick={util.makeNavigate('/pages/vips/vips')} />
-          <AtListItem title='商券代金' arrow='right' />
-          <AtListItem title='商品折扣' arrow='right' />
-          <AtListItem title='商品仓库' arrow='right' />
+          <AtListItem title='商品折扣' arrow='right'
+            onClick={util.makeNavigate('/pages/tickets/tickets')} />
+          <AtListItem title='商品仓库' arrow='right'
+            onClick={() => Taro.switchTab({
+              url: '/pages/warehouse/warehouse'
+            })} />
           <AtListItem title='辅助功能' arrow='right' />
         </AtList>
       </View>

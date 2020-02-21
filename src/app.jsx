@@ -37,6 +37,7 @@ class App extends Component {
       'pages/warehouseLog/warehouseLog',
       'pages/vips/vips',
       'pages/filter/filter',
+      'pages/tickets/tickets',
     ],
     window: {
       backgroundTextStyle: 'dark',
