@@ -27,7 +27,7 @@ class App extends Component {
       'pages/storeInfo/storeInfo',
 
       'pages/storeSummary/storeSummary',
-      'pages/setting/setting',
+      'pages/msg/msg',
       'pages/warehouse/warehouse',
       'pages/data/data',
 
@@ -38,6 +38,7 @@ class App extends Component {
       'pages/vips/vips',
       'pages/filter/filter',
       'pages/tickets/tickets',
+      'pages/createTicket/createTicket',
     ],
     window: {
       backgroundTextStyle: 'dark',
@@ -48,16 +49,24 @@ class App extends Component {
     tabBar: {
       list: [{
         pagePath: 'pages/storeSummary/storeSummary',
-        text: '商铺'
+        text: '商铺',
+        iconPath: './assets/store.png',
+        selectedIconPath: './assets/store.png'
       }, {
-        pagePath: 'pages/setting/setting',
-        text: '设置'
+        pagePath: 'pages/msg/msg',
+        text: '消息',
+        iconPath: './assets/message.png',
+        selectedIconPath: './assets/message.png'
       }, {
         pagePath: 'pages/warehouse/warehouse',
-        text: '仓库'
+        text: '仓库',
+        iconPath: './assets/warehouse.png',
+        selectedIconPath: './assets/warehouse.png'
       }, {
         pagePath: 'pages/data/data',
-        text: '数据'
+        text: '数据',
+        iconPath: './assets/data.png',
+        selectedIconPath: './assets/data.png'
       }]
     }
   }

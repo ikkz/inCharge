@@ -1,8 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import './setting.css'
+import './msg.css'
 
-export default class Setting extends Component {
+export default class Msg extends Component {
 
   componentWillMount () { }
 
@@ -20,7 +20,7 @@ export default class Setting extends Component {
 
   render () {
     return (
-      <View className='setting'>
+      <View className='msg'>
         <Text>Hello world!</Text>
       </View>
     )
