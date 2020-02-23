@@ -39,6 +39,8 @@ class App extends Component {
       'pages/filter/filter',
       'pages/tickets/tickets',
       'pages/createTicket/createTicket',
+      'pages/selectPrint/selectPrint',
+      'pages/msgList/msgList',
     ],
     window: {
       backgroundTextStyle: 'dark',

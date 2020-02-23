@@ -3,7 +3,7 @@ import { View, Text } from '@tarojs/components'
 import './warehouseLog.css'
 import * as api from '../../utils/api';
 import SummaryCard from '../../components/summaryCard';
-import { AtList, AtListItem } from 'taro-ui';
+import { AtList, AtListItem, AtButton } from 'taro-ui';
 
 export default class Warehouselog extends Component {
   config = {
@@ -68,6 +68,12 @@ export default class Warehouselog extends Component {
     }
   }
 
+  print = () => {
+    Taro.navigateTo({
+      url: `/pages/selectPrint/selectPrint?id=${this.id}`
+    });
+  }
+
   render() {
     return (
       <View className='warehouseLog'>
@@ -81,6 +87,9 @@ export default class Warehouselog extends Component {
           <View style="flex:1">
             <SummaryCard name="调拨记录" value={this.state.tranferCount} />
           </View>
+        </View>
+        <View style="padding:15px">
+          <AtButton type='primary' onClick={this.print}>选择打印</AtButton>
         </View>
         <AtList>
           {

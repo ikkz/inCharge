@@ -35,12 +35,15 @@ const apis = {
     getWarehouses: domin + '/warehouse/all POST A',
     createWarehouse: domin + '/warehouse/new POST A',
     getWarehouseLogs: domin + '/warehouse/log POST A',
+    printWarehouseLogs: domin + '/warehouse/print POST A',
 
     updateVip: domin + '/vip/update POST A',
     getVip: domin + '/vip/info POST A',
 
     createTicket: domin + '/ticket/create POST A',
-    getTickets: domin + '/ticket/all POST A'
+    getTickets: domin + '/ticket/all POST A',
+
+    getAdminMsg: domin + '/admin-msg/all POST A'
 };
 
 const errors = {
@@ -250,6 +253,14 @@ const getWarehouseLogs = async ({
     });
 }
 
+const printWarehouseLogs = async ({
+    ids
+} = {}) => {
+    return mRequest(apis.printWarehouseLogs, {
+        ids
+    });
+}
+
 const tranferProduct = async ({
     Action,
     OwnerFrom,
@@ -316,6 +327,16 @@ const getTickets = async ({
     });
 }
 
+const getAdminMsg = async ({
+    StoreID,
+    Type
+} = {}) => {
+    return mRequest(apis.getAdminMsg, {
+        StoreID,
+        Type
+    });
+}
+
 module.exports = {
     setTokenLoader,
     setRequest,
@@ -334,7 +355,9 @@ module.exports = {
     getWarehouses,
     createWarehouse,
     getWarehouseLogs,
+    printWarehouseLogs,
     getVip,
     createTicket,
-    getTickets
+    getTickets,
+    getAdminMsg
 }
