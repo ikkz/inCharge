@@ -31,7 +31,8 @@ class App extends Component {
       'pages/warehouse/warehouse',
       'pages/data/data',
       'pages/productWater/productWater',
-      'pages/report/report',
+      'pages/sellDetail/sellDetail',
+      'pages/waterFilter/waterFilter',
 
       'pages/products/products',
       'pages/productInfo/productInfo',
