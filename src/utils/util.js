@@ -31,3 +31,13 @@ export const getScanCode = async () => {
     });
     return result.result;
 }
+
+export const addMsg = (key, content) => {
+    const msgs = Taro.getStorageSync(key) || [];
+    Taro.setStorageSync(key, [
+        {
+            time: (new Date()).toLocaleString(),
+            content
+        }, ...msgs
+    ]);
+}

@@ -27,6 +27,7 @@ export default class Index extends Component {
         if (response.code === api.errors.Unauthorized) {
           return true;
         } else if (response.code === api.errors.Ok) {
+          console.log(response.data);
           Taro.getApp().userInfo = response.data;
           if (response.data.ID && (
             util.isNull(response.data.Name) ||

@@ -24,7 +24,7 @@ export default class StoreInfo extends Component {
   componentDidMount() {
     if (this.$router.params.id) {
       this.setState({
-        id: this.$router.params.id
+        id: parseInt(this.$router.params.id)
       });
       Taro.startPullDownRefresh();
     }
