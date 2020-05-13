@@ -30,6 +30,8 @@ class App extends Component {
       'pages/msg/msg',
       'pages/warehouse/warehouse',
       'pages/data/data',
+      'pages/productWater/productWater',
+      'pages/report/report',
 
       'pages/products/products',
       'pages/productInfo/productInfo',
@@ -41,6 +43,11 @@ class App extends Component {
       'pages/createTicket/createTicket',
       'pages/selectPrint/selectPrint',
       'pages/msgList/msgList',
+      'pages/admins/admins',
+      'pages/storeMgr/storeMgr',
+      'pages/seller/seller',
+      'pages/mine/mine',
+      'pages/helper/helper',
     ],
     window: {
       backgroundTextStyle: 'dark',

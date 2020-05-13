@@ -12,7 +12,6 @@ export default class Filter extends Component {
 
   state = {
     Rest: {},
-    Time: {},
     Cost: {},
     Price: {},
     Address: {},
@@ -34,7 +33,6 @@ export default class Filter extends Component {
     let param = JSON.stringify({
       ...JSON.parse(this.$router.params.param),
       Rest: this.state.Rest,
-      Time: this.state.Time,
       Cost: this.state.Cost,
       Price: this.state.Price,
       Address: this.state.Address,
@@ -49,7 +47,6 @@ export default class Filter extends Component {
     return (
       <View className='filter'>
         <Range {... this.makeProps('Rest', '剩余数量')} />
-        <Range {... this.makeProps('Time', '登记时间')} />
         <Range {... this.makeProps('Cost', '成本价格')} />
         <Range {... this.makeProps('Price', '销售价格')} />
         <Range {... this.makeProps('Address', '仓库位置')} />

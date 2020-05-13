@@ -16,7 +16,7 @@ const setRequest = (req) => {
     req && (request = req);
 }
 
-const domin = 'http://ic.cildhdi.cn/api';
+const domin = 'https://ic.dzytql.cn/api';
 
 const apis = {
     login: domin + '/auth/login POST U',
